@@ -9,9 +9,11 @@ var log *zap.Logger
 
 func init() {
 	logConfiguration := zap.Config{
-		Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
-		Encoding:    "json",
-		Development: false,
+		Level:            zap.NewAtomicLevelAt(zap.InfoLevel),
+		Encoding:         "json",
+		Development:      true,
+		OutputPaths:      []string{"stdout"},
+		ErrorOutputPaths: []string{"stderr"},
 		EncoderConfig: zapcore.EncoderConfig{
 			LevelKey:     "level",
 			TimeKey:      "time",

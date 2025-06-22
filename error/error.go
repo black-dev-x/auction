@@ -1,6 +1,6 @@
-package error
+package errors
 
-type RestError struct {
+type CustomError struct {
 	Message    string       `json:"message"`
 	StatusCode int          `json:"status_code"`
 	Err        string       `json:"error"`
@@ -12,28 +12,28 @@ type ErrorCause struct {
 	Reason string `json:"reason"`
 }
 
-func (re *RestError) Error() string {
+func (re *CustomError) Error() string {
 	return re.Message
 }
 
-func NewBadRequestError(message string) *RestError {
-	return &RestError{
+func BadRequestError(message string) *CustomError {
+	return &CustomError{
 		Message:    message,
 		StatusCode: 400,
 		Err:        "Bad Request",
 	}
 }
 
-func NewInternalServerError(message string) *RestError {
-	return &RestError{
+func InternalServerError(message string) *CustomError {
+	return &CustomError{
 		Message:    message,
 		StatusCode: 500,
 		Err:        "Internal Server Error",
 	}
 }
 
-func NewNotFoundError(message string) *RestError {
-	return &RestError{
+func NotFoundError(message string) *CustomError {
+	return &CustomError{
 		Message:    message,
 		StatusCode: 404,
 		Err:        "Not Found",
