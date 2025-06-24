@@ -11,17 +11,23 @@ type UserRepository struct {
 	collection *mongo.Collection
 }
 
-func NewUserRepository() *UserRepository {
+var userRepository *UserRepository
+
+func init() {
 	db, _ := database.DBConnection()
 	collection := db.Collection("users")
-	return &UserRepository{collection: collection}
+	userRepository = &UserRepository{collection: collection}
 }
 
-func (r *UserRepository) FindUserById(id string) (*User, error) {
+func GetUserRepository() *UserRepository {
+	return userRepository
+}
+
+func (r *UserRepository) FindUserById(id string) (*UserDTO, error) {
 	var user UserEntity
 	err := r.collection.FindOne(nil, bson.M{"_id": id}).Decode(&user)
 	if err == mongo.ErrNoDocuments {
 		return nil, errors.NotFoundError("User not found")
 	}
-	return user.ToModel(), err
+	return user.ToDTO(), err
 }

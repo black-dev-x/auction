@@ -1,6 +1,6 @@
 package user
 
-type User struct {
+type UserDTO struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
@@ -10,15 +10,15 @@ type UserEntity struct {
 	Name string `bson:"name"`
 }
 
-func (u *User) ToEntity() UserEntity {
+func (u *UserDTO) ToEntity() UserEntity {
 	return UserEntity{
 		ID:   u.ID,
 		Name: u.Name,
 	}
 }
 
-func (u *UserEntity) ToModel() *User {
-	return &User{
+func (u *UserEntity) ToDTO() *UserDTO {
+	return &UserDTO{
 		ID:   u.ID,
 		Name: u.Name,
 	}
