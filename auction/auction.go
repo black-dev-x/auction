@@ -24,14 +24,12 @@ type AuctionEntity struct {
 	StartingPrice float64 `bson:"starting_price"`
 }
 
-const StatusActive = "Active"
-const StatusInactive = "Inactive"
+const AuctionStatusActive = "Active"
+const AuctionStatusInactive = "Inactive"
 
-const ConditionNew = "New"
-const ConditionUsed = "Used"
-const ConditionRefurbished = "Refurbished"
-
-type AuctionStatus int
+const AuctionConditionNew = "New"
+const AuctionConditionUsed = "Used"
+const AuctionConditionRefurbished = "Refurbished"
 
 func (u *AuctionDTO) ToEntity() AuctionEntity {
 	return AuctionEntity{
