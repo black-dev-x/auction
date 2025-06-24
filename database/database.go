@@ -22,6 +22,7 @@ func DBConnection() (*mongo.Database, error) {
 		logger.Error("Failed to connect to MongoDB", err)
 		return nil, err
 	}
+	logger.Info("Connected to MongoDB successfully")
 	database = client.Database(DATABASE_NAME)
 	return database, nil
 }

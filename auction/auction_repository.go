@@ -41,3 +41,40 @@ func (r *AuctionRepository) CreateAuction(auction *AuctionDTO) (string, error) {
 	}
 	return data.InsertedID.(string), nil
 }
+
+func (r *AuctionRepository) FindAuctions(status string, category string, name string) ([]*AuctionDTO, error) {
+	filter := bson.M{}
+	if status != "" {
+		filter["status"] = status
+	}
+	if category != "" {
+		filter["category"] = category
+	}
+	if name != "" {
+		filter["name"] = bson.M{"$regex": name, "$options": "i"}
+	}
+
+	var auctions []*AuctionEntity
+	cursor, err := r.collection.Find(nil, filter)
+	if err != nil {
+		return nil, errors.InternalServerError("Failed to find auctions")
+	}
+	defer cursor.Close(nil)
+
+	for cursor.Next(nil) {
+		var auction AuctionEntity
+		if err := cursor.Decode(&auction); err != nil {
+			return nil, errors.InternalServerError("Failed to decode auction")
+		}
+		auctions = append(auctions, &auction)
+	}
+	if err := cursor.Err(); err != nil {
+		return nil, errors.InternalServerError("Failed to find auctions")
+	}
+
+	var result []*AuctionDTO
+	for _, auction := range auctions {
+		result = append(result, auction.ToDTO())
+	}
+	return result, nil
+}
