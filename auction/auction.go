@@ -9,7 +9,7 @@ type AuctionDTO struct {
 	Description   string    `json:"description"`
 	Condition     string    `json:"condition"`
 	Status        string    `json:"status"`
-	Timestamp     time.Time `json:"timestamp"`
+	Timestamp     time.Time `json:"timestamp" timestamp_format:"2006-01-02T15:04:05Z07:00"`
 	StartingPrice float64   `json:"starting_price"`
 }
 
